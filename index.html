@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SweetCrust Pastries - Freshly Baked Gourmet Pastries & Custom Cakes Delivered Daily in Lagos.">
+    <title>SweetCrust Pastries | Artisan Bakery in Lagos</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            safelist: [
+                'bg-green-100', 'text-green-800',
+                'bg-orange-100', 'text-orange-800',
+                'bg-blue-100', 'text-blue-800',
+                'bg-purple-100', 'text-purple-800',
+                'hover:bg-green-500', 'hover:text-white', 'group-hover:text-white'
+            ],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fcf9f2',
+                            100: '#f7f1e1',
+                            200: '#efdfc2',
+                            500: '#d18f4f',
+                            600: '#c57642',
+                            700: '#a55b38',
+                            800: '#864a32',
+                            900: '#6d3d2a',
+                            950: '#3a1f14',
+                        },
+                        accent: {
+                            light: '#ffe4e1',
+                            DEFAULT: '#e8b4b8'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-dark {
+                @apply bg-brand-950/80 backdrop-blur-md border border-brand-800/30;
+            }
+            /* Hide scrollbar for clean horizontal scrolling */
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+
+        /* Mobile bottom action bar spacing */
+        @media (max-width: 768px) {
+            body { padding-bottom: 76px; }
+        }
+        
+        @layer components {
+            .tab-active {
+                @apply bg-brand-700 text-white shadow-md;
+            }
+            .tab-inactive {
+                @apply bg-brand-50 text-brand-900 hover:bg-brand-100;
+            }
+            
+            .product-card {
+                @apply group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-brand-900 bg-brand-50 antialiased selection:bg-brand-200 selection:text-brand-900">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm transition-all duration-300" id="header">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8 py-4 grid grid-cols-3 items-center">
+            <a href="#" class="flex items-center gap-2">
+                <i class="fa-solid fa-wheat-awn text-brand-600 text-2xl"></i>
+                <span class="font-heading font-bold text-2xl tracking-tight text-brand-950">SweetCrust</span>
+            </a>
+            
+            <nav class="hidden md:flex gap-8 items-center justify-center font-medium text-sm">
+                <a href="#menu" class="hover:text-brand-600 transition-colors">Menu</a>
+                <a href="#custom-cakes" class="hover:text-brand-600 transition-colors">Custom Cakes</a>
+                <a href="#gallery" class="hover:text-brand-600 transition-colors">Gallery</a>
+            </nav>
+
+            <div class="hidden md:flex justify-end">
+                <a href="#menu" class="bg-brand-700 hover:bg-brand-800 text-white px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 text-sm font-medium">
+                    Order Today's Fresh Batch
+                </a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-brand-950 text-2xl col-start-3 flex justify-end" aria-label="Toggle menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-brand-100">
+            <nav class="flex flex-col px-4 py-3 gap-1">
+                <a href="#menu" class="mob-nav-link px-4 py-3 rounded-xl font-medium text-brand-900 hover:bg-brand-50 transition-colors">Menu</a>
+                <a href="#custom-cakes" class="mob-nav-link px-4 py-3 rounded-xl font-medium text-brand-900 hover:bg-brand-50 transition-colors">Custom Cakes</a>
+                <a href="#gallery" class="mob-nav-link px-4 py-3 rounded-xl font-medium text-brand-900 hover:bg-brand-50 transition-colors">Gallery</a>
+                <div class="pt-2 pb-1">
+                    <a href="#menu" class="mob-nav-link block bg-brand-700 hover:bg-brand-800 text-white px-6 py-3 rounded-xl font-medium text-center transition-all">
+                        Order Today's Fresh Batch
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex items-center min-h-[90vh]">
+        <!-- Background Decor -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-accent-light rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float" style="animation-delay: 1.5s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-2xl opacity-0 animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-light/50 text-brand-800 text-sm font-semibold mb-6 border border-accent/20">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-600"></span>
+                        </span>
+                        Baked fresh this morning in Lagos
+                    </div>
+                    <h1 class="font-heading text-5xl lg:text-7xl font-bold leading-tight mb-6 text-brand-950">
+                        Freshly Baked Gourmet Pastries & <span class="text-brand-600 italic">Custom Cakes</span>
+                    </h1>
+                    <p class="text-lg text-brand-800/80 mb-8 leading-relaxed">
+                        From flaky croissants and artisan meat pies to bespoke birthday cakes—delivered daily across Lagos. Taste the artisanal difference.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#menu" class="bg-brand-700 hover:bg-brand-800 text-white px-8 py-4 rounded-full font-medium text-center transition-all shadow-xl shadow-brand-700/20 hover:shadow-brand-700/40 flex items-center justify-center gap-2">
+                            Browse Menu & Order
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#custom-cakes" class="bg-white hover:bg-brand-50 text-brand-900 border border-brand-200 px-8 py-4 rounded-full font-medium text-center transition-all shadow-sm flex items-center justify-center gap-2">
+                            Design Custom Cake
+                            <i class="fa-solid fa-cake-candles text-sm text-brand-500"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative hidden lg:block opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Assorted freshly baked pastries" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-950/60 to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 right-8 text-white">
+                            <p class="font-heading text-2xl font-bold mb-2">Signature Croissants</p>
+                            <p class="text-white/80 text-sm">Selling out fast today!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -left-12 top-20 glass-dark text-white p-4 rounded-2xl shadow-xl animate-float" style="animation-delay: 1s;">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-xl">
+                                🌟
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold">4.9/5 Rating</p>
+                                <p class="text-xs text-white/70">1,200+ Happy Customers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Grid -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-4xl font-bold text-brand-950 mb-4">Our Daily Menu</h2>
+                <p class="text-brand-800/70 max-w-2xl mx-auto">Handcrafted with premium ingredients. Order now for same-day delivery in Lagos.</p>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="flex overflow-x-auto no-scrollbar gap-3 mb-10 pb-2 justify-start md:justify-center">
+                <button class="menu-tab tab-active px-6 py-2.5 rounded-full font-medium whitespace-nowrap transition-colors" data-category="all">All</button>
+                <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full font-medium whitespace-nowrap transition-colors" data-category="pastries">Daily Pastries</button>
+                <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full font-medium whitespace-nowrap transition-colors" data-category="cakes">Custom Cakes</button>
+                <button class="menu-tab tab-inactive px-6 py-2.5 rounded-full font-medium whitespace-nowrap transition-colors" data-category="boxes">Dessert Boxes & Platters</button>
+            </div>
+            
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="product-grid"></div>
+        </div>
+    </section>
+
+    <!-- Same-Day Delivery & Bulk Order Banner -->
+    <section class="py-16 bg-brand-900 text-brand-50 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 bg-brand-800/40 border border-brand-700/50 rounded-3xl p-8 lg:p-12 backdrop-blur-sm">
+                <div class="max-w-2xl">
+                    <span class="uppercase tracking-wider text-brand-300 font-bold text-sm mb-2 block">Event Catering & Bulk Orders</span>
+                    <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4">Planning a Corporate Event or Party?</h2>
+                    <p class="text-brand-100/80 text-lg">Get our curated dessert platters and pastry boxes delivered fresh to your office or event venue in Lagos. Special rates apply for bulk orders.</p>
+                </div>
+                <div class="shrink-0">
+                    <a id="bulk-order-wa-link" href="#" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-medium transition-all shadow-lg shadow-green-500/30 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        Chat with Event Planner
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Cake Inquiry Builder -->
+    <section id="custom-cakes" class="py-12 md:py-20 bg-brand-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 md:mb-12">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-brand-950 mb-3">Design Your Dream Cake</h2>
+                <p class="text-brand-800/70 text-sm sm:text-base">Build your custom cake in a few steps and get an instant quote via WhatsApp.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl p-5 sm:p-8 md:p-10 border border-brand-100">
+                <form id="cake-builder-form" class="space-y-5 md:space-y-7">
+
+                    <!-- Step 1: Event Type -->
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                            <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">1</span>
+                            Event Type
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="eventType" value="Birthday" class="peer sr-only" required>
+                                <div class="text-center px-2 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 hover:bg-brand-50 transition-all font-medium text-brand-800 text-sm">Birthday</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="eventType" value="Wedding" class="peer sr-only">
+                                <div class="text-center px-2 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 hover:bg-brand-50 transition-all font-medium text-brand-800 text-sm">Wedding</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="eventType" value="Anniversary" class="peer sr-only">
+                                <div class="text-center px-2 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 hover:bg-brand-50 transition-all font-medium text-brand-800 text-sm">Anniversary</div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="eventType" value="Corporate" class="peer sr-only">
+                                <div class="text-center px-2 py-2.5 sm:px-4 sm:py-3 rounded-xl border-2 border-brand-100 peer-checked:border-brand-600 peer-checked:bg-brand-50 hover:bg-brand-50 transition-all font-medium text-brand-800 text-sm">Corporate</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Steps 2 & 3 -->
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                                <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">2</span>
+                                Cake Size / Tiers
+                            </h3>
+                            <select name="cakeSize" class="w-full bg-brand-50 border border-brand-200 text-brand-900 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500 appearance-none" required>
+                                <option value="" disabled selected>Select size...</option>
+                                <option value="6 inch (Serves 8-10)">6 inch (Serves 8-10)</option>
+                                <option value="8 inch (Serves 15-20)">8 inch (Serves 15-20)</option>
+                                <option value="10 inch (Serves 25-30)">10 inch (Serves 25-30)</option>
+                                <option value="2 Tiers (Serves 40-50)">2 Tiers (Serves 40-50)</option>
+                                <option value="3 Tiers (Serves 70+)">3 Tiers (Serves 70+)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                                <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">3</span>
+                                Flavor
+                            </h3>
+                            <select name="flavor" class="w-full bg-brand-50 border border-brand-200 text-brand-900 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500 appearance-none" required>
+                                <option value="" disabled selected>Select flavor...</option>
+                                <option value="Classic Vanilla">Classic Vanilla</option>
+                                <option value="Rich Chocolate">Rich Chocolate</option>
+                                <option value="Red Velvet">Red Velvet</option>
+                                <option value="Marble Cake">Marble Cake</option>
+                                <option value="Lotus Biscoff">Lotus Biscoff</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Steps 4 & 5 -->
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                                <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">4</span>
+                                Delivery Date
+                            </h3>
+                            <input type="date" name="deliveryDate" class="w-full bg-brand-50 border border-brand-200 text-brand-900 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500" required>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                                <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">5</span>
+                                Location in Lagos
+                            </h3>
+                            <input type="text" name="location" placeholder="e.g., Lekki Phase 1, Ikeja" class="w-full bg-brand-50 border border-brand-200 text-brand-900 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500" required>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Design Notes -->
+                    <div>
+                        <h3 class="text-base sm:text-lg font-bold text-brand-900 mb-3 flex items-center gap-2">
+                            <span class="bg-brand-100 text-brand-700 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shrink-0">6</span>
+                            Design Notes
+                        </h3>
+                        <textarea name="notes" rows="3" placeholder="Colors, theme, or any specific design ideas..." class="w-full bg-brand-50 border border-brand-200 text-brand-900 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="w-full bg-brand-700 hover:bg-brand-800 text-white text-base sm:text-lg font-bold py-3.5 sm:py-4 rounded-xl transition-all shadow-lg hover:shadow-xl flex justify-center items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-xl sm:text-2xl"></i>
+                        Get Quote on WhatsApp
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Gallery & Social Proof -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-4xl font-bold text-brand-950 mb-2">Baked with Love</h2>
+                <p class="text-brand-800/70 mb-6">Follow us on Instagram <a href="#" class="text-brand-600 font-bold hover:underline">@SweetCrustLagos</a></p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="aspect-square rounded-2xl overflow-hidden group cursor-pointer relative">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Custom cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i class="fa-brands fa-instagram text-white text-3xl"></i>
+                    </div>
+                </div>
+                <div class="aspect-square rounded-2xl overflow-hidden group cursor-pointer relative">
+                    <img src="https://images.unsplash.com/photo-1608198093002-ad4e005484ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Pastries" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i class="fa-brands fa-instagram text-white text-3xl"></i>
+                    </div>
+                </div>
+                <div class="aspect-square rounded-2xl overflow-hidden group cursor-pointer relative">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Croissants" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i class="fa-brands fa-instagram text-white text-3xl"></i>
+                    </div>
+                </div>
+                <div class="aspect-square rounded-2xl overflow-hidden group cursor-pointer relative">
+                    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Birthday cake" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i class="fa-brands fa-instagram text-white text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial -->
+            <div class="mt-16 bg-brand-50 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto border border-brand-100">
+                <div class="text-brand-400 text-2xl mb-4 flex justify-center gap-1">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="text-xl md:text-2xl font-heading font-medium italic text-brand-900 mb-6">
+                    "SweetCrust made the most beautiful and delicious red velvet cake for my sister's wedding. The attention to detail was incredible, and the guests couldn't stop raving about it!"
+                </p>
+                <div class="font-bold text-brand-800">— Tolu A., Lekki</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-950 text-brand-100 py-12 border-t border-brand-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <i class="fa-solid fa-wheat-awn text-brand-500 text-2xl"></i>
+                <span class="font-heading font-bold text-2xl tracking-tight text-white">SweetCrust</span>
+            </div>
+            <p class="text-brand-300 mb-8 max-w-md mx-auto">Artisanal bakery bringing fresh, gourmet pastries and custom cakes to your doorstep in Lagos.</p>
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="text-brand-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="text-brand-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class="text-brand-400 hover:text-white transition-colors text-xl"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+            <p class="text-brand-500/60 text-sm">&copy; 2026 SweetCrust Pastries. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky Bottom Action Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-brand-100 p-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 flex gap-2">
+        <a href="#menu" class="flex-1 bg-brand-50 text-brand-800 font-semibold py-3 rounded-xl text-center border border-brand-200 text-sm">
+            View Menu
+        </a>
+        <a id="mobile-bar-wa-link" href="#" target="_blank" class="flex-1 bg-green-500 text-white font-semibold py-3 rounded-xl text-center shadow-md flex items-center justify-center gap-2 text-sm">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            WhatsApp Us
+        </a>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const WHATSAPP_NUMBER = '2348000000000'; // Replace with actual number
+
+        // Set all WhatsApp links from the single WHATSAPP_NUMBER constant
+        const bulkWaMsg = encodeURIComponent("Hi SweetCrust, I'd like to inquire about a bulk order/event catering.");
+        document.getElementById('bulk-order-wa-link').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${bulkWaMsg}`;
+        document.getElementById('mobile-bar-wa-link').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+        // Product Data
+        const products = [
+            {
+                name: 'Signature Butter Croissant',
+                category: 'pastries',
+                price: 3500,
+                image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                tag: 'Fresh Batch Ready',
+                tagColor: 'bg-green-100 text-green-800'
+            },
+            {
+                name: 'Artisan Nigerian Meat Pie',
+                category: 'pastries',
+                price: 2500,
+                image: 'images/nigerian_meat_pie.jpg',
+                tag: 'Bestseller',
+                tagColor: 'bg-orange-100 text-orange-800'
+            },
+            {
+                name: 'Pain au Chocolat',
+                category: 'pastries',
+                price: 4000,
+                image: 'images/pain_au_chocolat.jpg',
+                tag: 'Fresh Batch Ready',
+                tagColor: 'bg-green-100 text-green-800'
+            },
+            {
+                name: 'Classic Red Velvet Cake (8")',
+                category: 'cakes',
+                price: 35000,
+                image: 'https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                tag: 'Order 24 hrs Ahead',
+                tagColor: 'bg-blue-100 text-blue-800'
+            },
+            {
+                name: 'Lotus Biscoff Drip Cake',
+                category: 'cakes',
+                price: 42000,
+                image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                tag: 'Order 24 hrs Ahead',
+                tagColor: 'bg-blue-100 text-blue-800'
+            },
+            {
+                name: 'Weekend Dessert Platter',
+                category: 'boxes',
+                price: 25000,
+                image: 'https://images.unsplash.com/photo-1558326567-98ae2405596b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                tag: 'Great for Sharing',
+                tagColor: 'bg-purple-100 text-purple-800'
+            }
+        ];
+
+        // Render Products
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            const filteredProducts = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            filteredProducts.forEach(product => {
+                const formattedPrice = new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(product.price);
+                
+                // Construct WhatsApp Link
+                const waMessage = `Hi SweetCrust, I want to order the ${product.name} (Price: ${formattedPrice}).`;
+                const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+
+                const cardHTML = `
+                    <div class="product-card">
+                        <div class="relative overflow-hidden" style="height:256px;">
+                            <img src="${product.image}" alt="${product.name}" style="width:100%;height:256px;object-fit:cover;display:block;" class="transition-transform duration-700 group-hover:scale-110">
+                            <div class="absolute top-4 left-4 ${product.tagColor} text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                                ${product.tag}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-heading font-bold text-xl text-brand-900 mb-1">${product.name}</h3>
+                            <p class="text-brand-600 font-semibold text-lg mb-6">${formattedPrice}</p>
+                            <a href="${waLink}" target="_blank" class="block w-full bg-brand-50 hover:bg-green-500 text-brand-800 hover:text-white border border-brand-200 hover:border-green-500 text-center py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 group-hover:shadow-md">
+                                <i class="fa-brands fa-whatsapp text-lg text-green-500 group-hover:text-white transition-colors"></i>
+                                Order via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHTML;
+            });
+        }
+
+        // Tab Switching Logic
+        const tabs = document.querySelectorAll('.menu-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update styling
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                    t.classList.add('tab-inactive');
+                });
+                tab.classList.remove('tab-inactive');
+                tab.classList.add('tab-active');
+
+                // Filter products
+                renderProducts(tab.dataset.category);
+            });
+        });
+
+        // Initialize Products
+        renderProducts();
+
+        // Custom Cake Form Logic
+        document.getElementById('cake-builder-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            if(!data.eventType) {
+                alert("Please select an Event Type");
+                return;
+            }
+
+            const message = `*New Custom Cake Inquiry* 🎂\n\n` +
+                `*Event Type:* ${data.eventType}\n` +
+                `*Cake Size:* ${data.cakeSize}\n` +
+                `*Flavor:* ${data.flavor}\n` +
+                `*Delivery Date:* ${data.deliveryDate}\n` +
+                `*Location:* ${data.location}\n` +
+                `*Notes:* ${data.notes || 'None'}\n\n` +
+                `Please let me know the estimated cost!`;
+
+            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(waLink, '_blank');
+        });
+
+        // Sticky Header — compact on scroll
+        const headerInner = document.querySelector('#header > div');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                headerInner.classList.replace('py-4', 'py-2');
+            } else {
+                headerInner.classList.replace('py-2', 'py-4');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        // Close mobile menu when a drawer link is tapped
+        document.querySelectorAll('.mob-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+            });
+        });
+    </script>
+</body>
+</html>
