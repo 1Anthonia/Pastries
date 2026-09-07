@@ -88,6 +88,25 @@
         @media (max-width: 768px) {
             body { padding-bottom: 76px; }
         }
+
+        /* Fluid hero typography — scales smoothly across all screen sizes */
+        .hero-title {
+            font-size: clamp(2rem, 3.5vw + 0.5rem, 4rem);
+            line-height: 1.15;
+        }
+        .hero-body {
+            font-size: clamp(0.875rem, 0.9vw + 0.3rem, 1.05rem);
+            line-height: 1.7;
+        }
+        .hero-img {
+            height: clamp(340px, 42vh, 540px);
+            object-fit: cover;
+            width: 100%;
+        }
+        .hero-section-inner {
+            padding-top: clamp(5rem, 10vh, 8rem);
+            padding-bottom: clamp(2.5rem, 5vh, 4rem);
+        }
         
         @layer components {
             .tab-active {
@@ -152,7 +171,7 @@
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-brand-200 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-accent-light rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float" style="animation-delay: 1.5s;"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-28 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full hero-section-inner">
             <div class="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center">
                 <div class="max-w-2xl opacity-0 animate-fade-in-up">
                     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-light/50 text-brand-800 text-xs font-semibold mb-4 border border-accent/20">
@@ -162,10 +181,10 @@
                         </span>
                         Baked fresh this morning in Lagos
                     </div>
-                    <h1 class="font-heading text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-5 text-brand-950">
+                    <h1 class="font-heading hero-title font-bold mb-5 text-brand-950">
                         Freshly Baked Gourmet Pastries & <span class="text-brand-600 italic">Custom Cakes</span>
                     </h1>
-                    <p class="text-base lg:text-lg text-brand-800/80 mb-7 leading-relaxed">
+                    <p class="hero-body text-brand-800/80 mb-7">
                         From flaky croissants and artisan meat pies to bespoke birthday cakes—delivered daily across Lagos. Taste the artisanal difference.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
@@ -182,7 +201,7 @@
                 
                 <div class="relative hidden lg:flex items-center justify-center opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
                     <div class="relative w-full rounded-[2rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
-                        <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Assorted freshly baked pastries" class="w-full object-cover" style="height: 580px;">
+                        <img src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Assorted freshly baked pastries" class="hero-img">
                         <div class="absolute inset-0 bg-gradient-to-t from-brand-950/60 to-transparent"></div>
                         <div class="absolute bottom-6 left-6 right-6 text-white">
                             <p class="font-heading text-xl font-bold mb-1">Signature Cupcakes</p>
